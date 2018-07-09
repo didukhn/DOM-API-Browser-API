@@ -60,27 +60,38 @@ window.onload = () => {
   searchInput.addEventListener('keypress', () => {
     searchRes(searchInput.value, _ALLPOSTS);
   })
-
+  
   //tags
+
+  var tagInput = document.getElementById('tagInput');
+  
   function initTags() {
     var tagContainer = document.getElementById('tags');
     for (let tag of _ALLTAGS) {
       console.log(tag);
       tagContainer.innerHTML += `<span>#${tag}</span>`;
     }
-    var tagInput = document.getElementById('tagInput');
-  for (var child of tagContainer.childNodes) {
-    child.addEventListener('click', function () {
-      if (tagInput.value != '') {
-        tagInput.value += ',';
-      }
-      tagInput.value += this.innerText;
-    })
+    
+    for (var child of tagContainer.childNodes) {
+      child.addEventListener('click', function () {
+        if (tagInput.value != '') {
+          tagInput.value += ',';
+        }
+        tagInput.value += this.innerText;
+      })
+    }
+    
+    var settings = getBlogSettings();
+    if(settings.tagSorting) {
+      tagInput.value = settings.tagSorting.map(x => '#'+x).join(',');
+    }
   }
-  }
-  
-  
 
+
+  var btnClear = document.getElementById('delete-btn-input');
+  btnClear.addEventListener('click', () => {
+    tagInput.value = '';
+  })
 
   var btnSort = document.getElementById('tagsSort');
   btnSort.addEventListener('click', function () {
